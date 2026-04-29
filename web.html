@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juicy Nourish | Signature Culinary Experience</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- CORE CONFIGURATION --- */
+        :root {
+            --bg: #FFF8E6;
+            --primary: #630101; 
+            --accent: #FFE59D;  
+            --dark-green: #02412C;
+            --soft-green: #3A7D5D;
+            --white: #FFFFFF;
+            --glass: rgba(255, 255, 255, 0.85);
+            --shadow: 0 20px 50px rgba(99, 1, 1, 0.1);
+            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg);
+            color: var(--dark-green);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- PRELOADER --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
+        }
+        .loader-content { color: var(--accent); font-weight: 800; font-size: 1.5rem; letter-spacing: 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.95); } }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: var(--transition);
+        }
+        nav.scrolled { background: var(--glass); backdrop-filter: blur(15px); padding: 12px 5%; box-shadow: var(--shadow); }
+        .logo { font-weight: 800; font-size: 1.4rem; color: var(--primary); text-decoration: none; }
+        .nav-menu { display: flex; gap: 35px; list-style: none; }
+        .nav-menu a { 
+            text-decoration: none; color: var(--dark-green); font-weight: 700; 
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+            position: relative;
+        }
+        .nav-menu a:hover { color: var(--primary); }
+        .mobile-toggle { display: none; font-size: 1.8rem; color: var(--primary); cursor: pointer; }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh; min-height: 700px; display: flex; align-items: center;
+            padding: 0 8%; position: relative; overflow: hidden;
+        }
+        .hero-content { max-width: 800px; z-index: 2; }
+        .hero-tag { 
+            display: inline-block; padding: 8px 20px; background: var(--accent);
+            color: var(--primary); border-radius: 50px; font-weight: 800;
+            font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px;
+        }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 8rem); line-height: 0.9; color: var(--primary); margin-bottom: 30px; }
+        .hero h1 span { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; color: var(--soft-green); }
+        .hero-blob {
+            position: absolute; right: -5%; top: 10%; width: 50%; height: 80%;
+            background: var(--accent); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            z-index: 1; animation: morph 10s infinite alternate; overflow: hidden;
+        }
+        @keyframes morph { 0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; } }
+
+        /* --- TICKER --- */
+        .ticker { background: var(--primary); color: var(--accent); padding: 20px 0; transform: rotate(-1deg) scale(1.02); z-index: 5; position: relative; }
+        .ticker-wrap { display: flex; overflow: hidden; white-space: nowrap; }
+        .ticker-item { display: inline-block; padding: 0 30px; font-weight: 800; font-size: 1.2rem; animation: ticker 20s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- PRODUCT STYLE (RIZE & SMOOTHIES UNIFIED) --- */
+        .section-header { text-align: center; margin-bottom: 60px; padding: 0 5%; }
+        .section-header h2 { font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--primary); }
+
+        .product-container { padding: 60px 10%; }
+        .product-row { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; 
+            align-items: center; margin-bottom: 80px; 
+        }
+        .product-row:nth-child(even) { direction: rtl; }
+        .product-row:nth-child(even) .product-text { direction: ltr; }
+
+        .product-img-box { position: relative; border-radius: 35px; overflow: hidden; box-shadow: var(--shadow); max-width: 500px; margin: 0 auto; }
+        .product-img-box img { width: 100%; display: block; transition: 1s; }
+        .product-img-box:hover img { transform: scale(1.1); }
+
+        .product-text h3 { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--primary); margin-bottom: 15px; }
+        .product-text p { font-size: 1rem; opacity: 0.8; margin-bottom: 20px; max-width: 500px; }
+        
+        .nutrition-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .n-tag { 
+            font-size: 0.6rem; padding: 4px 10px; border: 1px solid currentColor; 
+            border-radius: 50px; font-weight: 700; opacity: 0.7;
+        }
+
+        /* --- CTAS --- */
+        .btn-fancy {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 15px 35px; background: var(--primary); color: var(--white);
+            text-decoration: none; border-radius: 100px; font-weight: 800;
+            transition: var(--transition); border: 2px solid var(--primary); font-size: 0.9rem;
+        }
+        .btn-fancy:hover { background: transparent; color: var(--primary); }
+
+        /* --- MOBILE --- */
+        @media (max-width: 991px) {
+            .hero { text-align: center; justify-content: center; }
+            .hero-blob { width: 80%; left: 10%; opacity: 0.3; }
+            .product-row { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .product-row:nth-child(even) { direction: ltr; }
+            .product-text p { margin: 0 auto 20px; }
+            .nutrition-tags { justify-content: center; }
+            .mobile-toggle { display: block; }
+            .nav-menu {
+                position: fixed; top: -100%; left: 0; width: 100%; background: var(--white);
+                flex-direction: column; padding: 80px 40px; transition: 0.6s ease-in-out;
+                text-align: center; box-shadow: var(--shadow);
+            }
+            .nav-menu.active { top: 0; }
+        }
+
+        footer { background: #012b1d; color: var(--white); padding: 80px 8% 40px; }
+        .footer-main { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .f-logo { font-size: 2.2rem; font-family: 'Playfair Display', serif; color: var(--accent); }
+        .social-icons { display: flex; gap: 15px; font-size: 1.2rem; margin-top: 20px; }
+        .social-icons a { color: var(--white); }
+        .back-to-top { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; transition: 0.5s; z-index: 999; }
+        .back-to-top.visible { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div class="loader-content">JUICY NOURISH</div></div>
+
+    <nav id="navbar">
+        <a href="#" class="logo">JUICY NOURISH.</a>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#rice">Signature Bowl</a></li>
+            <li><a href="#smoothies">Smoothies</a></li>
+            <li><a href="#locations">Lokasi</a></li>
+        </ul>
+        <div class="mobile-toggle" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-blob"></div>
+        <div class="hero-content" data-aos="fade-up">
+            <span class="hero-tag">ESTABLISHED 2026</span>
+            <h1>CRAFTING <span>Healthy</span> MEMORIES.</h1>
+            <p>Bukan sekadar makanan, tapi tentang bagaimana kamu memberikan apresiasi terbaik untuk tubuhmu setiap hari.</p>
+            <div style="margin-top: 40px; display: flex; gap: 20px; flex-wrap: wrap;">
+                <a href="#rice" class="btn-fancy">Explore Menu <i class="bi bi-arrow-right"></i></a>
+                <a href="https://linktr.ee/juicy_nourish" class="btn-fancy" style="background: transparent; color: var(--primary);">Order Online</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="ticker">
+        <div class="ticker-wrap">
+            <div class="ticker-item">FRESH INGREDIENTS DAILY • ORGANIC SOURCE • NO MSG • SUSTAINABLE PACKAGING • SURABAYA BASED • </div>
+            <div class="ticker-item">FRESH INGREDIENTS DAILY • ORGANIC SOURCE • NO MSG • SUSTAINABLE PACKAGING • SURABAYA BASED • </div>
+        </div>
+    </div>
+
+    <section class="product-container" id="rice">
+        <div class="section-header" data-aos="fade-up">
+            <span style="font-weight: 800; color: var(--soft-green); letter-spacing: 2px;">THE SIGNATURES</span>
+            <h2>Rice Bowl Series</h2>
+        </div>
+
+        <div class="product-row" data-aos="fade-up">
+            <div class="product-img-box"><img src="barbeque.jpeg" alt="Barbeque Bowl"></div>
+            <div class="product-text">
+                <h3>Barbeque Delight</h3>
+                <p>Potongan ayam katsu yang lembut dengan siraman saus BBQ smokey. Perpaduan rasa manis dan gurih yang pas, disajikan fresh setiap hari.</p>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--soft-green); margin-bottom: 20px;">Rp 18.000</div>
+                <a href="#" class="btn-fancy">Tambah</a>
+            </div>
+        </div>
+
+        <div class="product-row" data-aos="fade-up">
+            <div class="product-img-box"><img src="blackpapper.jpeg" alt="Blackpepper Bowl"></div>
+            <div class="product-text">
+                <h3>Blackpepper Punch</h3>
+                <p>Sensasi hangat lada hitam premium yang menyeimbangkan rasa gurih daging ayam. Cocok untuk energi harian.</p>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--soft-green); margin-bottom: 20px;">Rp 18.000</div>
+                <a href="#" class="btn-fancy">Tambah</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-container" id="smoothies" style="background: rgba(58, 125, 93, 0.05); border-radius: 80px;">
+        <div class="section-header" data-aos="fade-up">
+            <span style="font-weight: 800; color: var(--soft-green); letter-spacing: 2px;">BOOSTER & FRESH</span>
+            <h2>Smoothie Series</h2>
+        </div>
+
+        <div class="product-row" data-aos="fade-up">
+            <div class="product-img-box"><img src="nagapisang.jpeg" alt="Naga Pisang"></div>
+            <div class="product-text">
+                <h3>Naga Pisang Energy</h3>
+                <div class="nutrition-tags">
+                    <span class="n-tag">VIT C</span><span class="n-tag">FIBER+</span><span class="n-tag">NO SUGAR</span>
+                </div>
+                <p>Booster energi alami yang memadukan manisnya pisang lokal dengan kesegaran buah naga merah kaya antioksidan.</p>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 20px;">Rp 13.000</div>
+                <a href="#" class="btn-fancy">Tambah</a>
+            </div>
+        </div>
+
+        <div class="product-row" data-aos="fade-up">
+            <div class="product-img-box"><img src="strawpisang.jpeg" alt="Strawberry Pisang"></div>
+            <div class="product-text">
+                <h3>Straw-Pisang Fusion</h3>
+                <div class="nutrition-tags">
+                    <span class="n-tag">ANTIOXIDANT</span><span class="n-tag">SKIN HEALTH</span><span class="n-tag">REAL FRUIT</span>
+                </div>
+                <p>Classic fusion yang menyegarkan. Menghidrasi tubuh sekaligus memanjakan lidah dengan manis alami buah strawberry.</p>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 20px;">Rp 13.000</div>
+                <a href="#" class="btn-fancy">Tambah</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="locations" style="text-align: center; padding: 100px 8%;">
+        <div data-aos="fade-up">
+            <i class="bi bi-geo-alt-fill" style="font-size: 2.5rem; color: var(--primary);"></i>
+            <h2 style="font-size: 2.5rem; margin: 15px 0;">Find Us in Surabaya</h2>
+            <p style="max-width: 600px; margin: 0 auto 10px; font-weight: 700; color: var(--primary);">Jl. Ketintang No.156, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur</p>
+            <p style="max-width: 600px; margin: 0 auto 30px; opacity: 0.7;">Tersedia di berbagai titik strategis dan layanan ojek online favoritmu.</p>
+            <a href="https://www.google.com/maps/search/Jl.+Ketintang+No.156,+Surabaya" target="_blank" class="btn-fancy">Google Maps</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-main">
+            <div>
+                <div class="f-logo">Juicy Nourish.</div>
+                <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 15px;">Pelopor makanan sehat dengan harga terjangkau di Surabaya.</p>
+                <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;"><i class="bi bi-geo-alt"></i> Jl. Ketintang No.156, Gayungan, Surabaya.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-instagram"></i></a><a href="#"><i class="bi bi-tiktok"></i></a><a href="#"><i class="bi bi-whatsapp"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px; color: var(--accent);">Layanan</h4>
+                <ul style="list-style: none; font-size: 0.9rem; line-height: 2; opacity: 0.7;">
+                    <li>Catering Harian</li><li>Event Bulking</li><li>Menu Custom</li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px; color: var(--accent);">Bantuan</h4>
+                <ul style="list-style: none; font-size: 0.9rem; line-height: 2; opacity: 0.7;">
+                    <li>Cara Order</li><li>Info Nutrisi</li><li>Hubungi Kami</li>
+                </ul>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px; opacity: 0.4; font-size: 0.75rem;">© 2026 JUICY NOURISH SURABAYA.</p>
+    </footer>
+
+    <div class="back-to-top" id="backToTop"><i class="bi bi-arrow-up"></i></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: false });
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+            }, 800);
+        };
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            const btt = document.getElementById('backToTop');
+            if (window.scrollY > 100) { nav.classList.add('scrolled'); btt.classList.add('visible'); } 
+            else { nav.classList.remove('scrolled'); btt.classList.remove('visible'); }
+        };
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('active'); }
+        document.getElementById('backToTop').onclick = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    </script>
+</body>
+</html>
